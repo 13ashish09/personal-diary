@@ -1,16 +1,21 @@
+import generateAutoSuggestion from "./suggestions";
+
 const addNoteBtn = document.getElementById('add-note-btn'),
 	  noteColors = document.querySelectorAll('.add-note-colors div'),
 	  noteContainer = document.querySelector('.notes-container');
 	  signOutBtn = document.getElementById('btnSignOut');
+	  
 
 const firebaseApp = firebase.initializeApp({  
-apiKey: "AIzaSyBcnQfoOk87xMv9iYGHATb2qtXbIdMDkjA",
+	
+	apiKey: "AIzaSyBcnQfoOk87xMv9iYGHATb2qtXbIdMDkjA",
 	authDomain: "personal-diary-352cf.firebaseapp.com",
 	projectId: "personal-diary-352cf",
 	storageBucket: "personal-diary-352cf.appspot.com",
 	messagingSenderId: "193410935291",
 	appId: "1:193410935291:web:32cfab4b665c98c2dc035e",
-	measurementId: "G-Z12762KZR5" });
+	measurementId: "G-Z12762KZR5"
+	});
 const auth = firebaseApp.auth(); 
 
   
@@ -95,10 +100,16 @@ function createAndAddNote(e) {
 	const textArea = document.createElement('textarea');
 	textArea.classList.add('note-text');
 	textArea.setAttribute('placeholder', 'Your note here');
+	textArea.addEventListener('keyup', generateAutoSuggestion);
 	// ICON
 	const icon = document.createElement('i');
 	icon.classList.add('fas');
 	icon.classList.add('fa-trash');
+	// ICON
+	const icon_save= document.createElement('i');
+	icon_save.classList.add('fas');
+	icon_save.classList.add('fa-save');
+
 
 
 	// Add listener
@@ -115,6 +126,7 @@ function createAndAddNote(e) {
 	noteElement.appendChild(textArea);
 	noteElement.appendChild(icon);
 	noteContainer.appendChild(noteElement);
+	noteElement.appendChild(icon_save);
 }
 
 
@@ -133,6 +145,19 @@ function deleteNote(e) {
 		localStorage.setItem('notes', JSON.stringify(notes));
 	}
 }
+
+//SAVE Note
+
+// saveNote.addEventListener('click', () => {
+// 	debugger;
+// 	try {
+// 		db.collection('notes').add({
+// 			note: textArea.value
+// 		});  
+// 	} catch (e){
+// 	   // an error
+// 	} 
+// });
 
 // // SAVE to local storage
 // function saveToLocalStg(note) {
@@ -182,3 +207,4 @@ addNoteBtn.addEventListener('click', showColors);
 //	 });  
 //	 localStorage.setItem('notes', JSON.stringify(nt));
 // });
+
